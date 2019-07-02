@@ -18,15 +18,19 @@ namespace UnitTest
 		[TestCleanup]
 		public void TeardownTest()
 		{
-			this.Driver.Quit();
+			Driver.Quit();
 		}
 
 		[TestMethod]
 		[System.Obsolete]
 		public void TestCase1()
 		{
+			YandexPage yandexPage = new YandexPage(Driver);
 			YandexMarketPage yandexMarketPage = new YandexMarketPage(Driver);
-			string section = "Телевизоры";
+			ElectronicsPage electronicsPage = new ElectronicsPage(Driver);
+			CategoryPage categoryPage = new CategoryPage(Driver);
+			FiltersPage filtersPage = new FiltersPage(Driver);
+			ProductPage productPage = new ProductPage(Driver);
 			string startingPrice = "20000";
 			string[] manufacturersList =
 			{
@@ -34,34 +38,58 @@ namespace UnitTest
 				"LG"
 			};
 
-			yandexMarketPage.Navigate();
-			yandexMarketPage.Paragraph1();
-			yandexMarketPage.Paragraph2(section, startingPrice, manufacturersList);
+			yandexPage.Navigate();
+			yandexPage.GoToMarket();
 
-			string resultTitle = yandexMarketPage.Paragraph3();
+			yandexMarketPage.GoToElectronics();
 
-			yandexMarketPage.VolidateResults(resultTitle);
+			electronicsPage.GoToTVs();
+
+			categoryPage.GoToFilters();
+
+			filtersPage.SettingTheInitialPrice(startingPrice);
+			filtersPage.SettingTheManufacturers(manufacturersList);
+			filtersPage.ApplyFilters();
+
+			categoryPage.CheckListbox();
+			categoryPage.CheckRadioButton();
+			string result = categoryPage.GetTitle();
+			productPage.VolidateResults(result);
 		}
 
 		[TestMethod]
 		[System.Obsolete]
 		public void TestCase2()
 		{
+			YandexPage yandexPage = new YandexPage(Driver);
 			YandexMarketPage yandexMarketPage = new YandexMarketPage(Driver);
-			string section = "Наушники";
+			ElectronicsPage electronicsPage = new ElectronicsPage(Driver);
+			CategoryPage categoryPage = new CategoryPage(Driver);
+			FiltersPage filtersPage = new FiltersPage(Driver);
+			ProductPage productPage = new ProductPage(Driver);
 			string startingPrice = "5000";
 			string[] manufacturersList =
 			{
 				"Beats"
 			};
 
-			yandexMarketPage.Navigate();
-			yandexMarketPage.Paragraph1();
-			yandexMarketPage.Paragraph2(section, startingPrice, manufacturersList);
+			yandexPage.Navigate();
+			yandexPage.GoToMarket();
 
-			string resultTitle = yandexMarketPage.Paragraph3();
+			yandexMarketPage.GoToElectronics();
 
-			yandexMarketPage.VolidateResults(resultTitle);
+			electronicsPage.GoToHeadphones();
+
+			categoryPage.GoToFilters();
+
+			filtersPage.SettingTheInitialPrice(startingPrice);
+			filtersPage.SettingTheManufacturers(manufacturersList);
+			filtersPage.ApplyFilters();
+
+			categoryPage.CheckListbox();
+			categoryPage.CheckRadioButton();
+			string result = categoryPage.GetTitle();
+			productPage.VolidateResults(result);
 		}
 	}
 }
